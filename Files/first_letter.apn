@@ -1,0 +1,6 @@
+{
+  "aps": {
+    "alert": "Dear Mr. Potter, We are pleased to inform you that you have been accepted at Hogwarts School of Witchcraft and Wizardry",
+    "sound": "default"
+  }
+}
