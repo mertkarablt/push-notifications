@@ -57,6 +57,10 @@ extension AppDelegate {
         let center =  UNUserNotificationCenter.current()
         center.getNotificationSettings { settings in
             print("getNotificationSettings: \(settings)")
+            guard settings.authorizationStatus == .authorized else { return }
+            DispatchQueue.main.async {
+                UIApplication.shared.registerForRemoteNotifications()
+            }
         }
     }
 }
