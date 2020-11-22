@@ -40,7 +40,7 @@ extension AppDelegate {
         let center =  UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         center.requestAuthorization(
-            options: options) { (granted, error) in
+            options: options) { [weak self] (granted, error) in
             if let error = error {
                 // Handle the error here.
                 print("registerForPushNotifications - Error: \(error)")
@@ -48,6 +48,15 @@ extension AppDelegate {
 
             // Enable or disable features based on the authorization.
             print("registerForPushNotifications - Granted: \(granted)")
+            guard granted else { return }
+            self?.getNotificationSettings()
+        }
+    }
+
+    func getNotificationSettings() {
+        let center =  UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            print("getNotificationSettings: \(settings)")
         }
     }
 }
