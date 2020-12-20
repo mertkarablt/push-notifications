@@ -15,6 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         registerForPushNotifications()
 
+        // Is app launched from notification
+        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject],
+           let payload = notification["aps"] as? [String: AnyObject] {
+            // Handle your payload
+            print("Launched from notification:\n\(payload)")
+        }
+
         return true
     }
 
@@ -72,5 +79,14 @@ extension AppDelegate {
 
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("didFailToRegisterForRemoteNotificationsWithError Error: \(error)")
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        guard let payload = userInfo["aps"] as? [String: AnyObject] else {
+            completionHandler(.failed)
+            return
+        }
+        // Handle your payload
+        print("didReceiveRemoteNotification:\n\(payload)")
     }
 }
